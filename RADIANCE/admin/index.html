@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Entry Activities</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10px;
+        }
+        h1 {
+            color: #333;
+        }
+        nav {
+            background-color: #333;
+            padding: 10px 0;
+            position: relative;
+            height: 30px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .hamburger {
+            display: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .hamburger div {
+            width: 30px;
+            height: 4px;
+            background-color: white;
+            margin: 6px 0;
+            transition: 0.4s;
+        }
+
+        nav ul {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                width: max-content;
+                text-align: left;
+                background-color: #333;
+                position: absolute;
+                top: 50px;
+                left: 0;
+                padding: 10px;
+            }
+
+            nav ul li {
+                display: block;
+                margin: 10px 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            nav.open ul {
+                display: block;
+            }
+
+            .hamburger.open div:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+
+            .hamburger.open div:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.open div:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        th[title] {
+            cursor: pointer;
+        }
+        .no-data {
+            text-align: center;
+            font-style: italic;
+            color: #888;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Entry Activities</a></li>
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Settings</a></li>
+        </ul>
+    </nav>
+
+    <h1>Entry Activities</h1>
+
+    <button onclick="clearLocalStorage()">Clear Data</button>
+
+    <table id="activities-table">
+        <thead>
+            <tr>
+                <th title="The type of activity (e.g., visitor, delivery)">Type</th>
+                <th title="Name of the person entering">Name</th>
+                <th title="Phone number of the person entering">Phone</th>
+                <th title="Identification number of the person">ID</th>
+                <th title="Reason for entry or designation of the person">Reason/Designation</th>
+                <th title="Items that were checked in by the person">Items Checked In</th>
+                <th title="Security guard responsible for checking the person">Guard</th>
+                <th title="Security code associated with the entry">Security Code</th>
+                <th title="Date and time when the entry occurred">Date & Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- activities -->
+        </tbody>
+    </table>
+
+    <p class="no-data" id="no-data-message" style="display: none;">No activities recorded</p>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('open');
+        }
+
+        function closeMenu() {
+            const nav = document.querySelector('nav');
+            nav.classList.remove('open');
+        }
+
+        document.addEventListener('click', function(event) {
+            const nav = document.querySelector('nav');
+            const hamburger = document.querySelector('.hamburger');
+            if (!nav.contains(event.target) && !hamburger.contains(event.target)) {
+                closeMenu();
+            }
+        });
+
+        function displayEntryActivities() {
+            const activities = JSON.parse(localStorage.getItem('entryActivities')) || [];
+            const tableBody = document.querySelector('#activities-table tbody');
+            const noDataMessage = document.getElementById('no-data-message');
+            tableBody.innerHTML = '';
+            if (activities.length === 0) {
+                noDataMessage.style.display = 'block';
+                return;
+            }
+
+            noDataMessage.style.display = 'none';
+
+            activities.forEach(activity => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${activity.type}</td>
+                    <td>${activity.name}</td>
+                    <td>${activity.phone || '-'}</td>
+                    <td>${activity.id || '-'}</td>
+                    <td>${activity.reason || activity.designation || '-'}</td>
+                    <td>${activity.items || '-'}</td>
+                    <td>${activity.guard}</td>
+                    <td>${activity.code}</td>
+                    <td>${formatDateTime(activity.dateTime)}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function formatDateTime(dateTime) {
+            if (!dateTime) return '-';
+            const date = new Date(dateTime);
+            return date.toLocaleString();
+        }
+
+        function clearLocalStorage() {
+            if (confirm('Are you sure you want to clear all entry activities?')) {
+                localStorage.removeItem('entryActivities');
+                displayEntryActivities();
+            }
+        }
+
+        displayEntryActivities();
+    </script>
+</body>
+</html>
