@@ -1,0 +1,203 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.add-guard-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-guard-btn:hover {
+    background-color: #218838;
+}
+
+.guard-list {
+    margin-top: 20px;
+}
+
+.guard-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.guard-item:last-child {
+    border-bottom: none;
+}
+
+.guard-item button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.guard-item button.edit {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.guard-item button.delete {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.add-check-guard {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-width: 400px;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.add-Guard-Buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Add-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.Add-Cancelled {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.Add-Cancelled:hover {
+    background-color: #c82333;
+}
+
+.Add-button[type="submit"] {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.Add-button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .add-guard-btn {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .guard-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .guard-item span {
+        margin-bottom: 10px;
+    }
+
+    .guard-item button {
+        margin: 5px 0;
+    }
+
+    .add-check-guard {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .input-field {
+        width: 100%;
+    }
+
+    .Add-button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .add-guard-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .guard-item {
+        padding: 8px;
+    }
+
+    .guard-item button {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+
+    .add-check-guard {
+        width: 100%;
+        padding: 10px;
+        max-width: 300px;
+    }
+
+    .input-field {
+        padding: 8px;
+    }
+
+    .Add-button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
